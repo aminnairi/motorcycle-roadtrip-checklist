@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aminnairi.github.io/motorcycle-roadtrip-checklist/sitemap.xml
