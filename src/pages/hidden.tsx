@@ -20,11 +20,11 @@ export const HiddenPage: FunctionComponent = memo(() => {
   const {
     hiddenSections,
     toggleSectionItem,
-    toggleSectionItemsChecked,
     isSectionItemsChecked,
     getSectionItemsCheckedCount,
     getAllSectionItemsCheckedCount,
     getAllSectionItemsHiddenCount,
+    toggleHiddenSectionItemsChecked,
     showAllSectionItems,
     showSectionItems,
     showSectionItem
@@ -58,7 +58,7 @@ export const HiddenPage: FunctionComponent = memo(() => {
               </Title>
               <List style={{ width: "100%" }} ref={sectionRef}>
                 <ListItem>
-                  <input id={section.title} type="checkbox" onChange={withVibration(toggleSectionItemsChecked(section.title))} checked={isSectionItemsChecked(section)} />
+                  <input id={section.title} type="checkbox" onChange={withVibration(toggleHiddenSectionItemsChecked(section.title))} checked={isSectionItemsChecked(section)} />
                   <label htmlFor={section.title} style={{ flex: 1, cursor: "pointer" }}>
                     <Text align="center" variant="italic" color="grey">
                       {isSectionItemsChecked(section) ? translate("Tout décocher") : translate("Tout cocher")}
