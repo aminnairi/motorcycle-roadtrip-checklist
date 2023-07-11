@@ -5,7 +5,8 @@ export enum ActionType {
   SectionItemCheckedToggle = "SECTION_ITEM_CHECKED_TOGGLE",
   HideSectionItem = "HIDE_SECTION_ITEM",
   ShowSectionItem = "SHOW_SECTION_ITEM",
-  ToggleSectionItemsChecked = "TOGGLE_SECTION_ITEMS_CHECKED",
+  ToggleVisibleSectionItemsChecked = "TOGGLE_VISIBLE_SECTION_ITEMS_CHECKED",
+  ToggleHiddenSectionItemsChecked = "TOGGLE_HIDDEN_SECTION_ITEMS_CHECKED",
   HideSectionItems = "HIDE_SECTION_ITEMS",
   ShowSectionItems = "SHOW_SECTION_ITEMS",
   UncheckAllSectionItems = "UNCHECK_ALL_SECTION_ITEMS",
@@ -36,11 +37,6 @@ export type ShowSectionItemAction = {
   }
 }
 
-export type ToggleSectionItemsChecked = {
-  type: ActionType.ToggleSectionItemsChecked,
-  payload: string
-};
-
 export type HideSectionItems = {
   type: ActionType.HideSectionItems,
   payload: string
@@ -61,11 +57,22 @@ export type ShowAllSectionItems = {
   payload: null
 };
 
+export type ToggleVisibleSectionItemsChecked = {
+  type: ActionType.ToggleVisibleSectionItemsChecked,
+  payload: string
+};
+
+export type ToggleHiddenSectionItemsChecked = {
+  type: ActionType.ToggleHiddenSectionItemsChecked,
+  payload: string
+};
+
 export type Action =
   | SectionItemCheckedToggleAction
   | HideSectionItemAction
   | ShowSectionItemAction
-  | ToggleSectionItemsChecked
+  | ToggleVisibleSectionItemsChecked
+  | ToggleHiddenSectionItemsChecked
   | HideSectionItems
   | ShowSectionItems
   | UncheckAllSectionItems
@@ -147,30 +154,6 @@ export const reducer = createReducer<State, Action>((state, action) => {
         })
       };
 
-    case ActionType.ToggleSectionItemsChecked:
-      return {
-        ...state,
-        sections: state.sections.map(section => {
-          if (section.title !== action.payload) {
-            return section;
-          }
-
-          const checked = section.items.every(item => {
-            return item.checked;
-          });
-
-          return {
-            ...section,
-            items: section.items.map(item => {
-              return {
-                ...item,
-                checked: !checked
-              };
-            })
-          };
-        })
-      };
-
     case ActionType.HideSectionItems:
       return {
         ...state,
@@ -238,6 +221,60 @@ export const reducer = createReducer<State, Action>((state, action) => {
               return {
                 ...item,
                 hidden: false
+              };
+            })
+          };
+        })
+      };
+
+    case ActionType.ToggleVisibleSectionItemsChecked:
+      return {
+        ...state,
+        sections: state.sections.map(section => {
+          if (section.title !== action.payload) {
+            return section;
+          }
+
+          const visibleItems = section.items.filter(item => !item.hidden);
+          const allVisibleItemsChecked = visibleItems.every(item => item.checked);
+
+          return {
+            ...section,
+            items: section.items.map(item => {
+              if (item.hidden) {
+                return item;
+              }
+
+              return {
+                ...item,
+                checked: !allVisibleItemsChecked
+              };
+            })
+          };
+        })
+      };
+
+    case ActionType.ToggleHiddenSectionItemsChecked:
+      return {
+        ...state,
+        sections: state.sections.map(section => {
+          if (section.title !== action.payload) {
+            return section;
+          }
+
+          const hiddenItems = section.items.filter(item => item.hidden);
+          const allHiddenItemsChecked = hiddenItems.every(item => item.checked);
+
+          return {
+            ...section,
+            items: section.items.map(item => {
+              if (!item.hidden) {
+                return item;
+              }
+
+              return {
+                ...item,
+                checked: !allHiddenItemsChecked
               };
             })
           };
