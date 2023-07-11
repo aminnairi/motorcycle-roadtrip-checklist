@@ -1,7 +1,7 @@
 {
   "name": "Motorcycle Roadtrip Checklist",
   "description": "A checklist for motorcycle roadtrips",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "manifest_version": 2,
   "short_name": "MRC",
   "start_url": "/motorcycle-roadtrip-checklist/",
