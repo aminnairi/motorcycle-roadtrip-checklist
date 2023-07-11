@@ -70,10 +70,20 @@ export const useSections = () => {
     });
   }, []);
 
-  const toggleSectionItemsChecked = useCallback((section: string) => () => {
+  const toggleVisibleSectionItemsChecked = useCallback((section: string) => () => {
     startTransition(() => {
       dispatch({
-        type: ActionType.ToggleSectionItemsChecked,
+        type: ActionType.ToggleVisibleSectionItemsChecked,
+        payload: section
+      });
+    });
+  }, []);
+
+  const toggleHiddenSectionItemsChecked = useCallback((section: string) => () => {
+    console.log("Henlo???");
+    startTransition(() => {
+      dispatch({
+        type: ActionType.ToggleHiddenSectionItemsChecked,
         payload: section
       });
     });
@@ -150,7 +160,8 @@ export const useSections = () => {
     toggleSectionItem,
     hideSectionItem,
     showSectionItem,
-    toggleSectionItemsChecked,
+    toggleVisibleSectionItemsChecked,
+    toggleHiddenSectionItemsChecked,
     isSectionItemsChecked,
     hideSectionItems,
     showSectionItems,
