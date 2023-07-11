@@ -7,7 +7,7 @@
 
 ## 0.2.0
 
-- TODO
+- Granular bulk checking ([#2](https://github.com/aminnairi/motorcycle-roadtrip-checklist/pull/2))
 
 ## 0.1.0
 
